@@ -17,7 +17,7 @@ func main() {
 	array3 := [...]int{1, 2, 3, 4, 5, 6, 7}
 	fmt.Println(array3)
 
-	// Slice
+	// Slice, multiplies itself if overcapacity
 
 	slice := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	fmt.Println(slice)
@@ -30,5 +30,13 @@ func main() {
 
 	slice2 := array2[1:3]
 	fmt.Println(slice2)
+
+	print("\n--------------------\n")
+
+	slice3 := make([]float32, 10, 15)
+	fmt.Println(slice3)
+
+	fmt.Println(len(slice3)) //10
+	fmt.Println(cap(slice3)) //15
 
 }
