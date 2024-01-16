@@ -23,4 +23,10 @@ func main() {
 		fmt.Println(index, name)
 	}
 
+	for _, name := range "WORD" {
+		fmt.Println(name, string(name))
+	}
+
+
+	user := 
 }
