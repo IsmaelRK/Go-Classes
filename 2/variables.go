@@ -19,4 +19,7 @@ func main() {
 
 	myvar, myvar2 := "value", 5
 	fmt.Println(myvar, myvar2)
+
+	const myconst int = 5
+	println(myconst)
 }
