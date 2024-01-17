@@ -27,6 +27,25 @@ func main() {
 		fmt.Println(name, string(name))
 	}
 
+	user := map[string]string{
+		"name":   "Ismael",
+		"lastNm": "R",
+	}
 
-	user := 
+	for key, value := range user {
+		fmt.Println(key, value)
+
+	}
+
+	i := 0
+	boolean := true
+	for boolean {
+		println(i)
+
+		if i > 5 {
+			boolean = false
+		}
+
+		i++
+	}
 }
