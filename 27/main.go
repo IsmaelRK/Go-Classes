@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func addrstype(adress string) string {
+func Addrstype(adress string) string {
 
 	validTypes := []string{"rua", "avenida", "estrada", "rodovia"}
 
@@ -25,10 +25,10 @@ func addrstype(adress string) string {
 
 	}
 
-	return strings.ToTitle(resultType)
+	return strings.ToLower(resultType)
 }
 
 func main() {
-	typeAdrrs := addrstype("rua 1")
+	typeAdrrs := Addrstype("rua 1")
 	fmt.Println(typeAdrrs)
 }
