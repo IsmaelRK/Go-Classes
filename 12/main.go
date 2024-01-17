@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-// Fibonacci recursive test
+// Fibonacci recursive test, *just playing with the language
 
 func rec1(slc []int, i1 int) {
 
