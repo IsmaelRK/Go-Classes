@@ -25,9 +25,10 @@ func addrstype(adress string) string {
 
 	}
 
-	return resultType
+	return strings.ToTitle(resultType)
 }
 
 func main() {
-	fmt.Println(addrstype("rua 1"))
+	typeAdrrs := addrstype("rua 1")
+	fmt.Println(typeAdrrs)
 }
