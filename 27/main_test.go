@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	. "fmt"
 	"testing"
 )
 
@@ -20,11 +20,11 @@ func TestAddrsType(t *testing.T) {
 
 	for _, key := range mytests {
 
-		fmt.Println(key)
+		Println(key)
 
 		addressTypeReceived := Addrstype(key.insert)
 
-		fmt.Println(key.insert, addressTypeReceived)
+		Println(key.insert, addressTypeReceived)
 
 		if addressTypeReceived != key.returnValue {
 			t.Errorf("The type is different!")
