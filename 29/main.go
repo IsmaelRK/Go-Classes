@@ -26,8 +26,10 @@ func main() {
 
 	d2 := make(map[string]string)
 
-	if erro := json.Unmarshal([]byte(dogJSON), &d2) {
-		
+	if erro := json.Unmarshal([]byte(dogJSON), &d2); erro != nil {
+		log.Fatal(erro)
 	}
+
+	fmt.Println(d2)
 
 }
