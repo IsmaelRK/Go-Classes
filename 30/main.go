@@ -9,10 +9,21 @@ import (
 
 var templates *template.Template
 
+type user struct {
+	Name  string
+	Email string
+}
+
 func home(w http.ResponseWriter, r *http.Request) {
 
 	//w.Write([]byte("<h1>Hello World</h1>"))
-	templates.ExecuteTemplate(w, "index.html", nil)
+
+	u := user{
+		"Ismael",
+		"ab@gmail.com",
+	}
+
+	templates.ExecuteTemplate(w, "index.html", u)
 
 }
 
