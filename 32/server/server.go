@@ -3,6 +3,7 @@ package server
 import (
 	"crud/db"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 )
@@ -48,6 +49,12 @@ func CreateUsr(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	idInserted := insertion.LastInsertId()
+	idInserted, err := insertion.LastInsertId()
+	if err != nil {
+		w.Write([]byte("Erro ap obter id"))
+		return
+	}
 
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte(fmt.Sprintf("Usuário inserido com sucesso! Id: %d", idInserted)))
 }
