@@ -134,4 +134,44 @@ func SearchUser(w http.ResponseWriter, r *http.Request) {
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
+	param := mux.Vars(r)
+
+	ID, err := strconv.ParseUint(param["id"], 10, 32)
+	if err != nil {
+		w.Write([]byte("Erro ao ler o parametro"))
+		return
+	}
+
+	bodyRequest, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		w.Write([]byte("Erro ao ler a requisição"))
+		return
+	}
+
+	var user user
+	if err := json.Unmarshal(bodyRequest, &user); err != nil {
+		w.Write([]byte("Erro ao converter user para struct"))
+		return
+	}
+
+	dbconn, err := db.Connect()
+	if err != nil {
+		w.Write([]byte("Erro ao conectar no db"))
+		return
+	}
+	defer dbconn.Close()
+
+	statement, err := dbconn.Prepare("update users set nome = ?, email = ? where id = ?")
+	if err != nil {
+		w.Write([]byte("Erro ao crira statement"))
+		return
+	}
+	defer statement.Close()
+
+	if _, err := statement.Exec(user.Name, user.Email, ID); err != nil {
+		w.Write([]byte("Erro ao atualizar usuário"))
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
 }
