@@ -131,3 +131,7 @@ func SearchUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+func UpdateUser(w http.ResponseWriter, r *http.Request) {
+
+}
