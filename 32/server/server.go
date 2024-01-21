@@ -58,3 +58,40 @@ func CreateUsr(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte(fmt.Sprintf("Usuário inserido com sucesso! Id: %d", idInserted)))
 }
+
+func SearchUsers(w http.ResponseWriter, r *http.Request) {
+
+	db, err := db.Connect()
+	if err != nil {
+		w.Write([]byte("Erro ao conectar ao db"))
+	}
+	defer db.Close()
+
+	lines, err := db.Query("select * from users")
+	if err != nil {
+		w.Write([]byte("Erro ao buscar usuarios"))
+	}
+	defer lines.Close()
+
+	var users []user
+	for lines.Next() {
+		var user user
+
+		if err := lines.Scan(&user.ID, &user.Name, &user.Email); err != nil {
+			w.Write([]byte("Erro ao escanear usuário"))
+			return
+		}
+
+		users = append(users, user)
+	}
+
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(users); err != nil {
+		w.Write([]byte("Erro ao converter em json"))
+		return
+	}
+}
+
+func SearchUser(w http.ResponseWriter, r *http.Request) {
+
+}
