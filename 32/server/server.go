@@ -4,8 +4,10 @@ import (
 	"crud/db"
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 )
 
 type user struct {
@@ -93,5 +95,39 @@ func SearchUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func SearchUser(w http.ResponseWriter, r *http.Request) {
+
+	param := mux.Vars(r)
+
+	ID, err := strconv.ParseUint(param["id"], 10, 32)
+	if err != nil {
+		w.Write([]byte("Erro ao converter parametro"))
+		return
+	}
+
+	db, err := db.Connect()
+	if err != nil {
+		w.Write([]byte("Erro em conectar ao db"))
+		return
+	}
+
+	line, err := db.Query("select * from users where id = ?", ID)
+	if err != nil {
+		w.Write([]byte("Erro ao buscar usuário"))
+		return
+	}
+
+	var user user
+
+	if line.Next() {
+		if err := line.Scan(&user.ID, &user.Name, &user.Email); err != nil {
+			w.Write([]byte("Erro ao buscar usuário"))
+			return
+		}
+	}
+
+	if err := json.NewEncoder(w).Encode(user); err != nil {
+		w.Write([]byte("Erro ao converter para json"))
+		return
+	}
 
 }
