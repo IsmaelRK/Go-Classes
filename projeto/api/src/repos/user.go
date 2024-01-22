@@ -90,13 +90,14 @@ func (u Users) SearchID(ID uint64) (models.User, error) {
 			&user.ID,
 			&user.Name,
 			&user.Nick,
-			&user.Name,
 			&user.Email,
 			&user.CreatedAt,
 		); err != nil {
+			fmt.Println("A")
 			return models.User{}, nil
 		}
 	}
 
+	fmt.Println(user)
 	return user, nil
 }
