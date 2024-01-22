@@ -101,3 +101,18 @@ func (u Users) SearchID(ID uint64) (models.User, error) {
 	fmt.Println(user)
 	return user, nil
 }
+
+func (u Users) Update(ID uint64, user models.User) error {
+
+	statement, err := u.db.Prepare("update users set name = ?, nick = ?, email = ? where id = ?")
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	if _, err = statement.Exec(user.Name, user.Nick, user.Email, ID); err != nil {
+		return err
+	}
+
+	return nil
+}
