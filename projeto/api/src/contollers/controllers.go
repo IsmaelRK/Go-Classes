@@ -6,8 +6,10 @@ import (
 	"api/src/repos"
 	"api/src/responses"
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -79,8 +81,31 @@ func SearchUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func SearchUser(w http.ResponseWriter, r *http.Request) {
-
 	w.Write([]byte("Searching User"))
+
+	params := mux.Vars(r)
+
+	userID, err := strconv.ParseUint(params["userId"], 10, 64)
+	if err != nil {
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	db, err := database.Conn()
+	if err != nil {
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	repo := repos.NewUserRepo(db)
+	user, err := repo.SearchID(userID)
+	if err != nil {
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.JSON(w, http.StatusOK, user)
 
 }
 
