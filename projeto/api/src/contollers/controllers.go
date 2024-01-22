@@ -65,6 +65,10 @@ func SearchUsers(w http.ResponseWriter, r *http.Request) {
 		responses.Error(w, http.StatusInternalServerError, err)
 		return
 	}
+	defer db.Close()
+
+	repo := repos.NewUserRepo(db)
+	users, err := repo.Search(nameOrNick)
 
 }
 
