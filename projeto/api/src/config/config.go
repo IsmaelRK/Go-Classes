@@ -26,10 +26,18 @@ func LoadEnv() {
 		Port = 9000
 	}
 
-	DbConn = fmt.Sprintf("%s:%s/%scharset=utf8&parseTime=True&loc=Local",
+	//DbConn = fmt.Sprintf("%s:%s/%scharset=utf8&parseTime=True&loc=Local",
+	//
+	//	os.Getenv("DB_USER"),
+	//	os.Getenv("DB_PASSWORD"),
+	//	os.Getenv("DB_NAME"),
+	//)
+
+	DbConn = fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
 
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASSWORD"),
+		os.Getenv("TCP_ADDR"),
 		os.Getenv("DB_NAME"),
 	)
 

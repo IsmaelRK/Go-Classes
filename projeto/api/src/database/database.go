@@ -10,6 +10,7 @@ func Conn() (*sql.DB, error) {
 
 	db, err := sql.Open("mysql", config.DbConn)
 	if err != nil {
+
 		return nil, err
 	}
 
