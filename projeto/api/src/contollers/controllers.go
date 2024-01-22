@@ -1,10 +1,18 @@
 package contollers
 
-import "net/http"
+import (
+	"io/ioutil"
+	"log"
+	"net/http"
+)
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
-
 	w.Write([]byte("Creating User"))
+
+	bodyRequest, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 }
 
