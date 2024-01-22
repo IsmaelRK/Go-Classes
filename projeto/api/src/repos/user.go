@@ -60,12 +60,14 @@ func (u Users) Search(nameOrNick string) ([]models.User, error) {
 			&user.ID,
 			&user.Name,
 			&user.Nick,
-			user.Email,
-			user.CreatedAt,
+			&user.Email,
+			&user.CreatedAt,
 		); err != nil {
 			return nil, err
 		}
 
+		users = append(users, user)
 	}
 
+	return users, nil
 }

@@ -69,6 +69,12 @@ func SearchUsers(w http.ResponseWriter, r *http.Request) {
 
 	repo := repos.NewUserRepo(db)
 	users, err := repo.Search(nameOrNick)
+	if err != nil {
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.JSON(w, http.StatusOK, users)
 
 }
 
