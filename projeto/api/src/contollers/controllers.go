@@ -6,6 +6,7 @@ import (
 	"api/src/repos"
 	"api/src/responses"
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
 	"io/ioutil"
 	"net/http"
@@ -113,31 +114,36 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Updating User"))
 
 	params := mux.Vars(r)
-	userID, err := strconv.ParseUint(params["userID"], 10, 64)
+	userID, err := strconv.ParseUint(params["userId"], 10, 64)
 	if err != nil {
+		fmt.Println("A")
 		responses.Error(w, http.StatusBadRequest, err)
 		return
 	}
 
 	bodyRequest, err := ioutil.ReadAll(r.Body)
 	if err != nil {
+		fmt.Println("B")
 		responses.Error(w, http.StatusUnprocessableEntity, err)
 		return
 	}
 
 	var user models.User
 	if err = json.Unmarshal(bodyRequest, &user); err != nil {
+		fmt.Println("C")
 		responses.Error(w, http.StatusBadRequest, err)
 		return
 	}
 
 	if err = user.Prepare("edicao"); err != nil {
+		fmt.Println("D")
 		responses.Error(w, http.StatusBadRequest, err)
 		return
 	}
 
 	db, err := database.Conn()
 	if err != nil {
+		fmt.Println("E")
 		responses.Error(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -145,6 +151,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	repo := repos.NewUserRepo(db)
 	if err = repo.Update(userID, user); err != nil {
+		fmt.Println("F")
 		responses.Error(w, http.StatusInternalServerError, err)
 		return
 	}
