@@ -5,6 +5,7 @@ import (
 	"api/src/models"
 	"api/src/repos"
 	"api/src/responses"
+	"api/src/security"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -38,5 +39,12 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		responses.Error(w, http.StatusInternalServerError, err)
 		return
 	}
+
+	if err := security.VerifyPassword(UserInDb.Password, user.Password); err != nil {
+		responses.Error(w, http.StatusUnauthorized, err)
+		return
+	}
+
+	w.Write([]byte("Loged In"))
 
 }
