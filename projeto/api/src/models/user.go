@@ -1,6 +1,7 @@
 package models
 
 import (
+	"api/src/security"
 	"errors"
 	"github.com/badoux/checkmail"
 	"strings"
@@ -22,7 +23,7 @@ func (user *User) Prepare(step string) error {
 		return err
 	}
 
-	user.format()
+	user.format(step)
 	return nil
 
 }
@@ -50,10 +51,21 @@ func (user *User) validate(step string) error {
 	return nil
 }
 
-func (user *User) format() {
+func (user *User) format(step string) error {
 
 	user.Name = strings.TrimSpace(user.Name)
 	user.Nick = strings.TrimSpace(user.Nick)
 	user.Email = strings.TrimSpace(user.Email)
+
+	if step == "singIn" {
+		hashPassword, err := security.Hash(user.Password)
+		if err != nil {
+			return err
+		}
+
+		user.Password = string(hashPassword)
+	}
+
+	return nil
 
 }
